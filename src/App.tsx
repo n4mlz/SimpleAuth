@@ -1,9 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
-import SignInForm from './components/SignInForm';
-import SignUpForm from './components/SignUpForm'
 import Home from './components/Home';
 import { AuthProvider } from './contexts/AuthContext'
 import './App.css'
+import AuthForm from './components/AuthForm';
 
 function App() {
 
@@ -12,8 +11,7 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/signin' element={<SignInForm />} />
-          <Route path='/signup' element={<SignUpForm />} />
+          <Route path='auth' element={<AuthForm />} />
         </Routes>
       </AuthProvider>
     </>

@@ -20,7 +20,7 @@ function AuthProvider({ children }: { children: ReactNode; }) {
     useEffect(() => {
         const unsubscribed = auth.onAuthStateChanged((user: UserType) => {
             setUser(user);
-            navigate(user ? '/' : '/signin');
+            navigate(user ? '/' : '/auth');
         });
         return () => {
             unsubscribed();
