@@ -14,7 +14,7 @@ function SignUpForm() {
             <h1>アカウントを新規作成</h1>
             <form onSubmit={signup}>
                 <input
-                    type='text'
+                    type='email'
                     onChange={(event) => setEmail(event.target.value)}
                 />
                 <input
