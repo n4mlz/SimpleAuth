@@ -1,4 +1,5 @@
 import { ReactNode, createContext, useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { User } from "firebase/auth";
 import { auth } from '../firebase';
 
@@ -12,13 +13,14 @@ function useAuthContext() {
 
 function AuthProvider({ children }: { children: ReactNode; }) {
 
+    const navigate = useNavigate();
     const [user, setUser] = useState<UserType>(null);
-
     const value = user;
 
     useEffect(() => {
         const unsubscribed = auth.onAuthStateChanged((user: UserType) => {
             setUser(user);
+            navigate(user ? '/' : '/signin');
         });
         return () => {
             unsubscribed();

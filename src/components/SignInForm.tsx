@@ -1,19 +1,19 @@
 import { FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { SignUp } from '../firebase';
+import { SignIn } from '../firebase';
 
-function SignUpForm() {
+function SignInForm() {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    async function signup(event: FormEvent) {
+    async function signin(event: FormEvent) {
         event.preventDefault();
-        await SignUp(email, password);
+        await SignIn(email, password);
     };
 
     return (
         <div>
-            <h1>アカウントを新規作成</h1>
-            <form onSubmit={signup}>
+            <h1>ログイン</h1>
+            <form onSubmit={signin}>
                 <input
                     type='email'
                     onChange={(event) => setEmail(event.target.value)}
@@ -24,9 +24,9 @@ function SignUpForm() {
                 />
                 <button type='submit'>続ける</button>
             </form>
-            <Link to='/signin'>アカウントをお持ちの方</Link>
+            <Link to='/signup'>アカウントを新規作成</Link>
         </div>
     );
 }
 
-export default SignUpForm;
+export default SignInForm;
