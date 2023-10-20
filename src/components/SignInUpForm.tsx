@@ -1,4 +1,5 @@
 import { FormEvent, useState } from 'react';
+import { Link } from 'react-router-dom'
 import { SignIn, SignUp } from '../firebase';
 
 var emailErrorMessages: {[key:string]:string} = {
@@ -6,7 +7,7 @@ var emailErrorMessages: {[key:string]:string} = {
     'auth/user-disabled': 'ユーザーは無効になっています。',
     'auth/user-not-found': 'ユーザーが存在しません。',
     'auth/invalid-login-credentials': 'メールアドレスまたはパスワードが間違っています。',
-    'auth/emailAlreadyInUse': 'このメールアドレスは既に使用されています。'
+    'auth/email-already-in-use': 'このメールアドレスは既に使用されています。'
 }
 
 var passwordErrorMessages: {[key:string]:string} = {
@@ -16,21 +17,21 @@ var passwordErrorMessages: {[key:string]:string} = {
     'auth/weak-password': 'パスワードは6文字以上で入力してください。'
 }
 
-function AuthForm() {
-    // true: sign-in, false: sign-up
-    const [authState, setAuthState] = useState<boolean>(true);
+function SignInUpForm(props: {isSignIn: boolean}) {
+    
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [isError, setIsError] = useState<string | undefined>(undefined);
-    async function auth(event: FormEvent) {
+
+    async function signInUp(event: FormEvent) {
         event.preventDefault();
-        setIsError(authState?await SignIn(email, password):await SignUp(email, password));
+        setIsError(props.isSignIn?await SignIn(email, password):await SignUp(email, password));
     };
 
     return (
         <div>
-            <h1>{authState?'ログイン':'アカウントを新規作成'}</h1>
-            <form onSubmit={auth}>
+            <h1>{props.isSignIn?'ログイン':'アカウントを新規作成'}</h1>
+            <form onSubmit={signInUp}>
                 <input
                     type='email'
                     onChange={(event) => setEmail(event.target.value)}
@@ -45,9 +46,10 @@ function AuthForm() {
                 {isError && isError in passwordErrorMessages && <p>{passwordErrorMessages[isError]}</p>}
                 <button type='submit'>続ける</button>
             </form>
-            <button onClick={() => setAuthState(!authState)}>{authState?'アカウントを新規作成':'アカウントをお持ちの方'}</button>
+            {props.isSignIn && <Link to='/reset'>パスワードを忘れた</Link>}
+            <Link to={props.isSignIn?'/signup':'/signin'}>{props.isSignIn?'アカウントを新規作成':'アカウントをお持ちの方'}</Link>
         </div>
     );
 }
 
-export default AuthForm;
+export default SignInUpForm;

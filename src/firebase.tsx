@@ -1,5 +1,5 @@
 import { initializeApp, FirebaseError } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAY_kd7k7qV8Q3ZCuCGdyCnKS_LoS39FJE",
@@ -52,4 +52,17 @@ async function SignOut() {
   }
 }
 
-export { auth, SignUp, SignIn, SignOut }
+async function SendResetEmail(email: string) {
+  try {
+    await sendPasswordResetEmail(auth, email);
+  } catch (error) {
+    if (error instanceof FirebaseError) {
+      console.log(error.code);
+      return error.code
+    } else {
+      console.log('send reset email error');
+    }
+  }
+}
+
+export { auth, SignUp, SignIn, SignOut, SendResetEmail }
