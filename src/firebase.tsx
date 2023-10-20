@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app';
+import { initializeApp, FirebaseError } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -15,30 +15,40 @@ const auth = getAuth(app);
 
 async function SignUp(email: string, password: string) {
   try {
-    const user = await createUserWithEmailAndPassword(auth, email, password);
-    alert('sign up done');
-    return user
-  } catch (error) {
-    alert('sign up error');
+    await createUserWithEmailAndPassword(auth, email, password);
+  } catch (error: unknown) {
+    if (error instanceof FirebaseError) {
+      console.log(error.code);
+      return error.code
+    } else {
+      console.log('sign up error');
+    }
   }
 }
 
 async function SignIn(email: string, password: string) {
   try {
-    const user = await signInWithEmailAndPassword(auth, email, password);
-    alert('sign in done');
-    return user
-  } catch (error) {
-    alert('sign in error');
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error: unknown) {
+    if (error instanceof FirebaseError) {
+      console.log(error.code);
+      return error.code
+    } else {
+      console.log('sign in error');
+    }
   }
 }
 
 async function SignOut() {
   try {
     await signOut(auth);
-    console.log('sign out done')
-  } catch (error) {
-    console.log('sign out error')
+  } catch (error: unknown) {
+    if (error instanceof FirebaseError) {
+      console.log(error.code);
+      return error.code
+    } else {
+      console.log('sign out error');
+    }
   }
 }
 
