@@ -6,11 +6,11 @@ type UserType = User | null;
 
 const AuthContext = createContext<UserType>(null);
 
-export function useAuthContext() {
+function useAuthContext() {
     return useContext(AuthContext);
 }
 
-export function AuthProvider({ children }: { children: ReactNode; }) {
+function AuthProvider({ children }: { children: ReactNode; }) {
 
     const [user, setUser] = useState<UserType>(null);
 
@@ -27,3 +27,5 @@ export function AuthProvider({ children }: { children: ReactNode; }) {
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
+
+export { useAuthContext, AuthProvider }

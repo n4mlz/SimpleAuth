@@ -1,11 +1,14 @@
 import './App.css'
 import SignUpForm from './components/SignUpForm'
+import { AuthProvider } from './contexts/AuthContext'
 
 function App() {
 
   return (
     <>
-      <SignUpForm />
+      <AuthProvider>
+        <SignUpForm />
+      </AuthProvider>
     </>
   )
 }

@@ -1,12 +1,15 @@
 import { FormEvent, useState } from 'react';
+import { SignUp } from '../firebase';
+import { useAuthContext } from '../contexts/AuthContext';
 
 function SignUpForm() {
-    const [email, setEmail] = useState<String>('');
-    const [password, setPassword] = useState<String>('');
-    function signup(event: FormEvent) {
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const user = useAuthContext();
+    async function signup(event: FormEvent) {
         event.preventDefault();
-        console.log(email);
-        console.log(password);
+        await SignUp(email, password);
+        console.log(user?.email);
     };
 
     return (
