@@ -1,5 +1,5 @@
-import { initializeApp, FirebaseError } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth';
+import { initializeApp, FirebaseError } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAY_kd7k7qV8Q3ZCuCGdyCnKS_LoS39FJE",
@@ -21,7 +21,7 @@ async function SignUp(email: string, password: string) {
       console.log(error.code);
       return error.code
     } else {
-      console.log('sign up error');
+      console.log("sign up error");
     }
   }
 }
@@ -34,7 +34,7 @@ async function SignIn(email: string, password: string) {
       console.log(error.code);
       return error.code
     } else {
-      console.log('sign in error');
+      console.log("sign in error");
     }
   }
 }
@@ -47,7 +47,7 @@ async function SignOut() {
       console.log(error.code);
       return error.code
     } else {
-      console.log('sign out error');
+      console.log("sign out error");
     }
   }
 }
@@ -60,7 +60,7 @@ async function SendResetEmail(email: string) {
       console.log(error.code);
       return error.code
     } else {
-      console.log('send reset email error');
+      console.log("send reset email error");
     }
   }
 }

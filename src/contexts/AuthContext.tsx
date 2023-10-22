@@ -1,7 +1,7 @@
-import React, { ReactNode, createContext, useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import type { User } from 'firebase/auth';
-import { auth } from '../firebase';
+import React, { ReactNode, createContext, useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import type { User } from "firebase/auth";
+import { auth } from "../firebase";
 
 type UserType = User | null;
 
@@ -21,9 +21,9 @@ const AuthProvider: React.FC<{ children: ReactNode }> = (props) => {
         const unsubscribed = auth.onAuthStateChanged((user: UserType) => {
             setUser(user);
             if (user) {
-                navigate(user.emailVerified ? '/' : '/verify');
+                navigate(user.emailVerified ? "/" : "/verify");
             } else {
-                navigate('/signin');
+                navigate("/signin");
             }
         });
         return () => {

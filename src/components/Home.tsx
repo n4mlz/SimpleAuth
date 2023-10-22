@@ -1,5 +1,5 @@
-import React from 'react';
-import { SignOut } from '../firebase';
+import React from "react";
+import { SignOut } from "../firebase";
 
 const Home: React.FC = () => {
     return (
