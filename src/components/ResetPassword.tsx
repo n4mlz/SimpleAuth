@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { SendResetEmail } from '../firebase';
 
@@ -10,7 +10,7 @@ var emailErrorMessages: { [key: string]: string } = {
     'auth/email-already-in-use': 'このメールアドレスは既に使用されています。'
 }
 
-function ResetPassword() {
+const ResetPassword: React.FC = () => {
 
     const [email, setEmail] = useState<string>('');
     const [isError, setIsError] = useState<string | undefined>(undefined);
@@ -20,10 +20,8 @@ function ResetPassword() {
         event.preventDefault();
         setIsError(await SendResetEmail(email));
         if (!isError) {
-            setTimeout(() => {
-                navigate('/signin');
-            }, 5000);
-            alert('再設定用のメールの送信が完了しました。5秒後に自動的にリダイレクトします。');
+            alert('再設定用のメールの送信が完了しました。自動的にリダイレクトします。');
+            navigate('/signin');
         }
     };
 

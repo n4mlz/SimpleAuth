@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useState, useContext, useEffect } from 'react';
+import React, { ReactNode, createContext, useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { User } from 'firebase/auth';
 import { auth } from '../firebase';
@@ -11,7 +11,7 @@ function useAuthContext() {
     return useContext(AuthContext);
 }
 
-function AuthProvider({ children }: { children: ReactNode; }) {
+const AuthProvider: React.FC<{ children: ReactNode }> = (props) => {
 
     const navigate = useNavigate();
     const [user, setUser] = useState<UserType>(null);
@@ -31,7 +31,7 @@ function AuthProvider({ children }: { children: ReactNode; }) {
         };
     }, []);
 
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>;
 }
 
 export { useAuthContext, AuthProvider }
