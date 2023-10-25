@@ -17,7 +17,7 @@ function App() {
           <Route path="/signin" element={<SignInUpForm isSignIn={true} />} />
           <Route path="/signup" element={<SignInUpForm isSignIn={false} />} />
           <Route path="/verify" element={<EmailVerification />} />
-          <Route path="/resetpassword" element={<ResetPassword />} />
+          <Route path="/reset" element={<ResetPassword />} />
           <Route path="/setprofile" element={<SetProfile />} />
         </Routes>
       </AuthProvider>

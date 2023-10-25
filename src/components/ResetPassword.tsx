@@ -14,21 +14,24 @@ const ResetPassword: React.FC = () => {
 
     const [email, setEmail] = useState<string>("");
     const [isError, setIsError] = useState<string | undefined>(undefined);
+    const [isPressed, setIsPressed] = useState<boolean>(false);
     const navigate = useNavigate();
 
     async function sendEmail(event: FormEvent) {
         event.preventDefault();
         setIsError(await SendResetEmail(email));
-        if (!isError) {
-            alert("再設定用のメールの送信が完了しました。自動的にリダイレクトします。");
-            navigate("/signin");
+        if (!isError && email) {
+            setIsPressed(true);
+            window.setTimeout(function(){
+                navigate("/signin");
+            }, 5000);
         }
     };
 
     return (
         <div>
             <h1>パスワードを再設定</h1>
-            <p>パスワード再設定用のメールを送信します。登録時のパスワードを入力してください。</p>
+            <p>パスワード再設定用のメールを送信します。登録時のメールアドレスを入力してください。</p>
             <form onSubmit={sendEmail}>
                 <input
                     type="email"
@@ -37,6 +40,7 @@ const ResetPassword: React.FC = () => {
                 />
                 {isError && isError in emailErrorMessages && <p>{emailErrorMessages[isError]}</p>}
                 <button type="submit">送信</button>
+                {isPressed?<p>再設定用のメールの送信が完了しました。5秒後に自動的にリダイレクトします。</p>:null}
             </form>
             <Link to="/signin">戻る</Link>
         </div>

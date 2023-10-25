@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { updateProfile } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { doc, setDoc, getDoc } from "firebase/firestore";
@@ -105,7 +105,7 @@ const SetProfile: React.FC = () => {
                     </label>
                 ))}
                 {isError && gender == undefined && <p>性別を入力してください。</p>}
-                {initData.displayName && <Link to="/">ホームへ</Link>}
+                {initData.displayName && <a href="/">次へ</a>}
                 <button type="submit">保存</button>
             </form>
         </div>
