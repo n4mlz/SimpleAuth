@@ -1,13 +1,11 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { updateProfile } from "firebase/auth";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { doc, setDoc, getDoc } from "firebase/firestore";
-import { db, storage } from "../firebase";
+import { Link, useNavigate } from "react-router-dom";
+import { DocumentReference, doc, getDoc } from "firebase/firestore";
+import { db, sendProfile } from "../firebase";
 import { useAuthContext } from "../contexts/AuthContext";
 import defaultIcon from "../assets/default-icon.png"
 
-const genderList = [
+const genderList: { [key: string]: string }[] = [
     { name: "男性", value: "male" },
     { name: "女性", value: "female" },
     { name: "回答しない", value: "custom" }
@@ -23,51 +21,30 @@ const SetProfile: React.FC = () => {
     const [iconURL, setIconURL] = useState<string>(defaultIcon);
     const [birth, setBirth] = useState<string | undefined>(undefined);
     const [gender, setGender] = useState<string | undefined>(undefined);
-
     const [isError, setIsError] = useState<boolean>(false);
     const [initData, setInitData] = useState<{ [key: string]: string }>({});
 
 
+    // プロフィール画像が選択された時, stateを更新
     const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return;
-
         const fileObject = e.target.files[0];
         setIconFile(fileObject);
         setIconURL(window.URL.createObjectURL(fileObject));
     };
 
-    const sendProfile = async (event: FormEvent) => {
+
+    // プロフィールの入力形式が正しい場合はfirebaseに保存
+    const sendInfo = async (event: FormEvent) => {
         event.preventDefault();
-        if (user && username && iconURL && birth && gender) {
-            try {
-                var photoURL: string | undefined = undefined;
-                if (iconURL.includes("firebasestorage.googleapis.com")) {
-                    photoURL = iconURL;
-                } else if (iconFile) {
-                    const iconRef = ref(storage, "user-image/" + user?.uid + "/icon." + iconFile.name.split('.').pop());
-                    await uploadBytes(iconRef, iconFile);
-                    photoURL = await getDownloadURL(iconRef);
-                }
-                updateProfile(user, { displayName: username, photoURL: photoURL });
-                const profileRef = doc(db, "profile", String(user?.uid));
-                setDoc(profileRef, {
-                    userId: user.uid,
-                    displayName: username,
-                    photoURL: photoURL,
-                    birth: birth,
-                    gender: gender
-                });
-                navigate('/');
-            } catch (error) {
-                console.log(error);
-            }
-        } else {
-            setIsError(true);
-        }
+        // エラーが発生した場合はtrueが返る
+        setIsError(await sendProfile(user, username, iconFile, iconURL, birth, gender));
     }
 
+
+    // 以前に入力した情報がある場合は以前の情報で初期化する
     const setInit = async () => {
-        const profileRef = doc(db, "profile", String(user?.uid));
+        const profileRef: DocumentReference = doc(db, "profile", String(user?.uid));
         const data = (await getDoc(profileRef)).data();
         setInitData({
             displayName: data?.displayName,
@@ -78,6 +55,8 @@ const SetProfile: React.FC = () => {
         setIconURL(data?.photoURL);
     }
 
+    
+    // サインイン済みでないまたはメール認証済みでない場合はページ遷移
     useEffect(() => {
         if (user) {
             user.emailVerified ? null : navigate('/verify');
@@ -90,7 +69,7 @@ const SetProfile: React.FC = () => {
     return (
         <div>
             <h1>プロフィールを編集</h1>
-            <form onSubmit={sendProfile}>
+            <form onSubmit={sendInfo}>
                 <input placeholder="ユーザー名" defaultValue={initData.displayName} onChange={(event) => setUsername(event.target.value)} />
                 {isError && username == undefined && <p>ユーザー名を入力してください。</p>}
                 <img src={iconURL} />
@@ -105,7 +84,7 @@ const SetProfile: React.FC = () => {
                     </label>
                 ))}
                 {isError && gender == undefined && <p>性別を入力してください。</p>}
-                {initData.displayName && <a href="/">次へ</a>}
+                {initData.displayName && <Link to="/">次へ</Link>}
                 <button type="submit">保存</button>
             </form>
         </div>

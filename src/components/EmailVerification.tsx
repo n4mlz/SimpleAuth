@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { sendEmailVerification } from "firebase/auth";
-import { doc, setDoc, getDoc, Timestamp } from "firebase/firestore";
-import { db, SignOut } from "../firebase";
+import { SendVerifyEmail, SignOut } from "../firebase";
 import { useAuthContext } from "../contexts/AuthContext";
 
 const EmailVerification: React.FC = () => {
@@ -10,36 +8,12 @@ const EmailVerification: React.FC = () => {
     const [isSentEmail, setIsSentEmail] = useState<boolean>(true);
 
     useEffect(() => {
-        if (user) {
-            (async () => {
-                const mailsentRef = doc(db, "mailsent", String(user?.uid));
-
-                const checkDb = async () => {
-                    try {
-                        const time: Timestamp = (await getDoc(mailsentRef)).data()?.time;
-                        if (time) {
-                            return (Timestamp.now().seconds - time.seconds > 300);
-                        } else {
-                            return true;
-                        }
-                    } catch (error) {
-                        console.log(error);
-                        return false;
-                    }
-                }
-
-                if (await checkDb()) {
-                    setIsSentEmail(false);
-                    sendEmailVerification(user);
-                    setDoc(mailsentRef, {
-                        userId: user?.uid,
-                        time: Timestamp.now()
-                    });
-                } else {
-                    setIsSentEmail(true);
-                }
-            })()
-        }
+        (async () => {
+            if (user) {
+                // エラーが発生した場合はtrueが返る
+                setIsSentEmail(await SendVerifyEmail(user));
+            }
+        })()
     }, [user]);
 
     return (

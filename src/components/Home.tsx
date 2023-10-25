@@ -8,7 +8,7 @@ const Home: React.FC = () => {
     return (
         <div>
             <h1>ホーム</h1>
-            <img src={user?.photoURL?user.photoURL:undefined}></img>
+            <img src={user?.photoURL ? user.photoURL : undefined}></img>
             <p>{user?.displayName}</p>
             <button onClick={SignOut}>サインアウト</button>
             <Link to="/setprofile">プロフィールを変更</Link>

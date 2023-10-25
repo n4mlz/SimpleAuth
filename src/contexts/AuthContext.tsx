@@ -16,12 +16,13 @@ const AuthProvider: React.FC<{ children: ReactNode }> = (props) => {
 
     const navigate = useNavigate();
     const [user, setUser] = useState<UserType>(null);
-    const value = user;
+    const value: UserType = user;
 
     useEffect(() => {
         (async () => {
-            const profileRef = doc(db, "profile", String(user?.uid));
 
+            // プロフィール情報の入力が済んでいるかを確認する
+            const profileRef = doc(db, "profile", String(user?.uid));
             const checkDb = async () => {
                 try {
                     return ((await getDoc(profileRef)).data()) ? true : false
@@ -29,6 +30,8 @@ const AuthProvider: React.FC<{ children: ReactNode }> = (props) => {
                     return false
                 }
             }
+
+            // userのログイン状態が更新されたら適切なページに遷移させる
             const unsubscribed = auth.onAuthStateChanged(async (user: UserType) => {
                 setUser(user);
                 if (user) {
@@ -44,9 +47,9 @@ const AuthProvider: React.FC<{ children: ReactNode }> = (props) => {
             return () => {
                 unsubscribed();
             };
+
         })()
-    },
-        [user]);
+    }, [user]);
 
     return <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>;
 }

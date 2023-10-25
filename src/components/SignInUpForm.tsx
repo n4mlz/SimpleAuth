@@ -23,7 +23,7 @@ const SignInUpForm: React.FC<{ isSignIn: boolean }> = (props) => {
     const [password, setPassword] = useState<string>("");
     const [isError, setIsError] = useState<string | undefined>(undefined);
 
-    async function signInUp(event: FormEvent) {
+    const signInUp = async (event: FormEvent) => {
         event.preventDefault();
         setIsError(props.isSignIn ? await SignIn(email, password) : await SignUp(email, password));
     };
