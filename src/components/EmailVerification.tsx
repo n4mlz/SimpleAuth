@@ -11,7 +11,7 @@ const EmailVerification: React.FC = () => {
 
     useEffect(() => {
         if (user) { (async () => {
-            const mailsentRef = doc(db, 'mailsent', String(user?.uid));
+            const mailsentRef = doc(db, "mailsent", String(user?.uid));
 
             const checkDb = async () => {
                 try {

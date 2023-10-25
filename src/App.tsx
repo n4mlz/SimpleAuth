@@ -5,7 +5,7 @@ import SignInUpForm from "./components/SignInUpForm";
 import EmailVerification from "./components/EmailVerification";
 import "./App.css"
 import ResetPassword from "./components/ResetPassword";
-import ChangeProfile from "./components/ChangeProfile";
+import SetProfile from "./components/SetProfile";
 
 function App() {
 
@@ -18,7 +18,7 @@ function App() {
           <Route path="/signup" element={<SignInUpForm isSignIn={false} />} />
           <Route path="/verify" element={<EmailVerification />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
-          <Route path="/changeprofile" element={<ChangeProfile />} />
+          <Route path="/setprofile" element={<SetProfile />} />
         </Routes>
       </AuthProvider>
     </>

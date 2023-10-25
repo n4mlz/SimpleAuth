@@ -1,7 +1,8 @@
 import React, { ReactNode, createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import type { User } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 type UserType = User | null;
 
@@ -17,11 +18,24 @@ const AuthProvider: React.FC<{ children: ReactNode }> = (props) => {
     const [user, setUser] = useState<UserType>(null);
     const value = user;
 
-    useEffect(() => {
-        const unsubscribed = auth.onAuthStateChanged((user: UserType) => {
+    useEffect(() => { (async () => {
+        const profilesetRef = doc(db, "profileset", String(user?.uid));
+
+        const checkDb = async () => {
+            try {
+                return ((await getDoc(profilesetRef)).data())?true:false
+            } catch (error) {
+                return false
+            }
+        }
+        const unsubscribed = auth.onAuthStateChanged(async (user: UserType) => {
             setUser(user);
             if (user) {
-                navigate(user.emailVerified ? "/" : "/verify");
+                if (user.emailVerified) {
+                    navigate(await checkDb()?"/":"setprofile")
+                } else {
+                    navigate("/verify")
+                }
             } else {
                 navigate("/signin");
             }
@@ -29,7 +43,8 @@ const AuthProvider: React.FC<{ children: ReactNode }> = (props) => {
         return () => {
             unsubscribed();
         };
-    }, []);
+    })()},
+    []);
 
     return <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>;
 }

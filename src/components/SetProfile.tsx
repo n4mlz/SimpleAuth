@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 
-const ChangeProfile: React.FC = () => {
+const SetProfile: React.FC = () => {
     const user = useAuthContext();
     const navigate = useNavigate();
     useEffect(() => {
@@ -15,4 +15,4 @@ const ChangeProfile: React.FC = () => {
     return (<div></div>)
 }
 
-export default ChangeProfile;
+export default SetProfile;
