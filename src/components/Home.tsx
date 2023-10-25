@@ -7,7 +7,7 @@ const Home: React.FC = () => {
         <div>
             <h1>ホーム</h1>
             <button onClick={SignOut}>サインアウト</button>
-            <Link to="/changeprofile">プロフィールを変更</Link>
+            <Link to="/setprofile">プロフィールを変更</Link>
         </div>
     );
 }

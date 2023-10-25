@@ -1,5 +1,9 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { updateProfile } from "firebase/auth";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { db, storage } from "../firebase";
 import { useAuthContext } from "../contexts/AuthContext";
 import defaultIcon from "../assets/default-icon.png"
 
@@ -21,6 +25,7 @@ const SetProfile: React.FC = () => {
     const [gender, setGender] = useState<string | undefined>(undefined);
 
     const [isError, setIsError] = useState<boolean>(false);
+    const [initData, setInitData] = useState<{ [key: string]: string }>({});
 
 
     const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,18 +36,52 @@ const SetProfile: React.FC = () => {
         setIconURL(window.URL.createObjectURL(fileObject));
     };
 
-    const sendProfile = (event: FormEvent) => {
+    const sendProfile = async (event: FormEvent) => {
         event.preventDefault();
-        if (username && iconFile && birth && gender) {
-            console.log('set');
+        if (user && username && iconURL && birth && gender) {
+            try {
+                var photoURL: string | undefined = undefined;
+                if (iconURL.includes("firebasestorage.googleapis.com")) {
+                    photoURL = iconURL;
+                } else if (iconFile) {
+                    const iconRef = ref(storage, "user-image/" + user?.uid + "/icon." + iconFile.name.split('.').pop());
+                    await uploadBytes(iconRef, iconFile);
+                    photoURL = await getDownloadURL(iconRef);
+                }
+                updateProfile(user, { displayName: username, photoURL: photoURL });
+                const profileRef = doc(db, "profile", String(user?.uid));
+                setDoc(profileRef, {
+                    userId: user.uid,
+                    displayName: username,
+                    photoURL: photoURL,
+                    birth: birth,
+                    gender: gender
+                });
+                navigate('/');
+            } catch (error) {
+                console.log(error);
+            }
         } else {
             setIsError(true);
         }
     }
 
+    const setInit = async () => {
+        const profileRef = doc(db, "profile", String(user?.uid));
+        const data = (await getDoc(profileRef)).data();
+        setInitData({
+            displayName: data?.displayName,
+            photoURL: data?.photoURL,
+            birth: data?.birth,
+            gender: data?.gender
+        });
+        setIconURL(data?.photoURL);
+    }
+
     useEffect(() => {
         if (user) {
             user.emailVerified ? null : navigate('/verify');
+            setInit();
         } else {
             navigate("/signin");
         };
@@ -52,12 +91,12 @@ const SetProfile: React.FC = () => {
         <div>
             <h1>プロフィールを編集</h1>
             <form onSubmit={sendProfile}>
-                <input placeholder="ユーザー名" onChange={(event) => setUsername(event.target.value)} />
+                <input placeholder="ユーザー名" defaultValue={initData.displayName} onChange={(event) => setUsername(event.target.value)} />
                 {isError && username == undefined && <p>ユーザー名を入力してください。</p>}
                 <img src={iconURL} />
                 <input type="file" accept="image/*" onChange={onFileInputChange} />
-                {isError && iconFile == undefined && <p>アイコンを設定してください。</p>}
-                <input type="date" placeholder="生年月日" onChange={(event) => setBirth(event.target.value)} />
+                {isError && iconURL == undefined && <p>アイコンを設定してください。</p>}
+                <input type="date" placeholder="生年月日" defaultValue={initData.birth} onChange={(event) => setBirth(event.target.value)} />
                 {isError && birth == undefined && <p>生年月日を入力してください。</p>}
                 {genderList.map((element) => (
                     <label key={element.value}>
@@ -66,6 +105,7 @@ const SetProfile: React.FC = () => {
                     </label>
                 ))}
                 {isError && gender == undefined && <p>性別を入力してください。</p>}
+                {initData.displayName && <Link to="/">ホームへ</Link>}
                 <button type="submit">保存</button>
             </form>
         </div>

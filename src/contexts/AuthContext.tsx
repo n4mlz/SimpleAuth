@@ -18,33 +18,35 @@ const AuthProvider: React.FC<{ children: ReactNode }> = (props) => {
     const [user, setUser] = useState<UserType>(null);
     const value = user;
 
-    useEffect(() => { (async () => {
-        const profilesetRef = doc(db, "profileset", String(user?.uid));
+    useEffect(() => {
+        (async () => {
+            const profileRef = doc(db, "profile", String(user?.uid));
 
-        const checkDb = async () => {
-            try {
-                return ((await getDoc(profilesetRef)).data())?true:false
-            } catch (error) {
-                return false
-            }
-        }
-        const unsubscribed = auth.onAuthStateChanged(async (user: UserType) => {
-            setUser(user);
-            if (user) {
-                if (user.emailVerified) {
-                    navigate(await checkDb()?"/":"setprofile")
-                } else {
-                    navigate("/verify")
+            const checkDb = async () => {
+                try {
+                    return ((await getDoc(profileRef)).data()) ? true : false
+                } catch (error) {
+                    return false
                 }
-            } else {
-                navigate("/signin");
             }
-        });
-        return () => {
-            unsubscribed();
-        };
-    })()},
-    []);
+            const unsubscribed = auth.onAuthStateChanged(async (user: UserType) => {
+                setUser(user);
+                if (user) {
+                    if (user.emailVerified) {
+                        navigate(await checkDb() ? "/" : "setprofile");
+                    } else {
+                        navigate("/verify");
+                    }
+                } else {
+                    navigate("/signin");
+                }
+            });
+            return () => {
+                unsubscribed();
+            };
+        })()
+    },
+        [user]);
 
     return <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>;
 }

@@ -1,6 +1,7 @@
 import { initializeApp, FirebaseError } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAY_kd7k7qV8Q3ZCuCGdyCnKS_LoS39FJE",
@@ -14,6 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 async function SignUp(email: string, password: string) {
   try {
@@ -67,4 +69,4 @@ async function SendResetEmail(email: string) {
   }
 }
 
-export { auth, db, SignUp, SignIn, SignOut, SendResetEmail }
+export { auth, db, storage, SignUp, SignIn, SignOut, SendResetEmail }
