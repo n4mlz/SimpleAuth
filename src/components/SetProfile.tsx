@@ -1,9 +1,9 @@
-import React, { FormEvent, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { FormEvent, useState } from "react";
+import { Link } from "react-router-dom";
 import { DocumentReference, doc, getDoc } from "firebase/firestore";
 import { db, sendProfile } from "../firebase";
 import { useAuthContext } from "../contexts/AuthContext";
-import defaultIcon from "../assets/default-icon.png"
+import defaultIcon from "../assets/default-icon.png";
 
 const genderList: { [key: string]: string }[] = [
     { name: "男性", value: "male" },
@@ -14,7 +14,6 @@ const genderList: { [key: string]: string }[] = [
 const SetProfile: React.FC = () => {
 
     const user = useAuthContext();
-    const navigate = useNavigate();
 
     const [username, setUsername] = useState<string | undefined>(undefined);
     const [iconFile, setIconFile] = useState<File | undefined>(undefined);
@@ -38,7 +37,7 @@ const SetProfile: React.FC = () => {
     const sendInfo = async (event: FormEvent) => {
         event.preventDefault();
         // エラーが発生した場合はtrueが返る
-        setIsError(await sendProfile(user, username, iconFile, iconURL, birth, gender));
+        if (user) setIsError(await sendProfile(user, username, iconFile, iconURL, birth, gender));
     }
 
 
@@ -52,19 +51,10 @@ const SetProfile: React.FC = () => {
             birth: data?.birth,
             gender: data?.gender
         });
-        setIconURL(data?.photoURL);
+        if (data?.photoURL) setIconURL(data.photoURL);
     }
 
-    
-    // サインイン済みでないまたはメール認証済みでない場合はページ遷移
-    useEffect(() => {
-        if (user) {
-            user.emailVerified ? null : navigate('/verify');
-            setInit();
-        } else {
-            navigate("/signin");
-        };
-    }, [user])
+    setInit();
 
     return (
         <div>

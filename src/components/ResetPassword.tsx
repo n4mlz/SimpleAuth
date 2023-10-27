@@ -17,16 +17,17 @@ const ResetPassword: React.FC = () => {
     const [isPressed, setIsPressed] = useState<boolean>(false);
     const navigate = useNavigate();
 
-    // メールの形式が正しい場合はメールを送る
     const sendEmail = async (event: FormEvent) => {
         event.preventDefault();
         setIsError(await SendResetEmail(email));
-        if (!isError && email) {
-            setIsPressed(true);
-            window.setTimeout(function () {
-                navigate("/signin");
-            }, 5000);
-        }
+
+        // メールの形式が正しくない場合は処理を抜ける
+        if (isError || email) return;
+
+        setIsPressed(true);
+        window.setTimeout(function () {
+            navigate("/signin");
+        }, 5000);
     };
 
     return (

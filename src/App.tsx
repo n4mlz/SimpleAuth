@@ -6,6 +6,7 @@ import EmailVerification from "./components/EmailVerification";
 import "./App.css"
 import ResetPassword from "./components/ResetPassword";
 import SetProfile from "./components/SetProfile";
+import PageTransition from "./components/PageTransition";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/reset" element={<ResetPassword />} />
           <Route path="/setprofile" element={<SetProfile />} />
         </Routes>
+        <PageTransition />
       </AuthProvider>
     </>
   )

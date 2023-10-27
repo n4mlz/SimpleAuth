@@ -101,7 +101,7 @@ async function SendVerifyEmail(user: User) {
 
 // プロフィールの入力形式が正しい場合はfirebaseに保存
 async function sendProfile(
-  user: User | null,
+  user: User | null | undefined,
   username: string | undefined,
   iconFile: File | undefined,
   iconURL: string,
@@ -142,4 +142,4 @@ async function sendProfile(
 }
 
 
-export { auth, db, storage, SignUp, SignIn, SignOut, SendResetEmail, SendVerifyEmail, sendProfile }
+export { auth, db, storage, SignUp, SignIn, SignOut, SendResetEmail, SendVerifyEmail, sendProfile };
