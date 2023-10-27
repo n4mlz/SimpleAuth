@@ -1,0 +1,9 @@
+.header {
+    background-color: rgb(255, 255, 255);
+    box-sizing:border-box;
+    padding: 2%;
+}
+
+.logo {
+    width: 12%;
+}

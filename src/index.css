@@ -1,0 +1,13 @@
+body {
+    font-size: calc(1 * (16px - 0.002 * (1920px - 100vw)));
+    font-family:'Montserrat', 'Kiwi Maru', sans-serif;
+}
+
+section {
+    align-items: center;
+    justify-content: center;
+}
+
+h1, h2 {
+    font-weight: 500;
+}

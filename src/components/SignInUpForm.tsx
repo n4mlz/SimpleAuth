@@ -29,8 +29,8 @@ const SignInUpForm: React.FC<{ isSignIn: boolean }> = (props) => {
     };
 
     return (
-        <div>
-            <h1>{props.isSignIn ? "ログイン" : "アカウントを新規作成"}</h1>
+        <div className="signinup-form">
+            <h1 className="headline">{props.isSignIn ? "ログイン" : "アカウントを新規作成"}</h1>
             <form onSubmit={signInUp}>
                 <input
                     type="email"

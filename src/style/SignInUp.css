@@ -1,0 +1,45 @@
+html {
+    background-color: rgb(26, 0, 36);
+}
+
+.heroarea {
+    position: relative;
+}
+
+.heroarea h1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 45px;
+    text-align: center;
+    white-space:nowrap;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 8px 9px #400d3b;
+}
+
+.headline {
+    text-align: center;
+    padding: 7.5% 7.5% 2.5% 7.5%;
+    color: white;
+}
+
+.signinup-form {
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    justify-content: center;
+}
+
+form {
+    display: flex;
+    flex-flow: column;
+    padding: 2.5% 10% 2.5% 10%;
+}
+
+input, button {
+    display:block;
+    margin: 0.5% 0 0.5% 0;
+    padding: 1.25%;
+}
