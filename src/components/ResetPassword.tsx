@@ -31,8 +31,8 @@ const ResetPassword: React.FC = () => {
     };
 
     return (
-        <div>
-            <h1>パスワードを再設定</h1>
+        <div className="block">
+            <h1 className="headline">パスワードを再設定</h1>
             <p>パスワード再設定用のメールを送信します。登録時のメールアドレスを入力してください。</p>
             <form onSubmit={sendEmail}>
                 <input

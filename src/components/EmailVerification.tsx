@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { SendVerifyEmail, SignOut } from "../firebase";
+import { SendVerifyEmail } from "../firebase";
 import { useAuthContext } from "../contexts/AuthContext";
 
 const EmailVerification: React.FC = () => {
@@ -15,13 +15,12 @@ const EmailVerification: React.FC = () => {
     }, [user]);
 
     return (
-        <div>
-            <h1>メールアドレスの確認</h1>
+        <div className="block">
+            <h1 className="headline">メールアドレスの確認</h1>
             <p>{isSentEmail != undefined ? isSentEmail
                 ? `5分以内にあなたのメールアドレス(${user?.email})宛てに確認メールを送信済みです。メールを再送する場合は、しばらく待ってからこのページに再アクセスしてください。`
                 : `あなたのメールアドレス(${user?.email})宛てに確認メールを送信しました。メール内のリンクをクリックして、アドレスが正しいことを確認してください。`
                 : null}</p>
-            <button onClick={SignOut}>サインアウト</button>
             <a href="/verify">次へ</a>
         </div>
     );

@@ -1,11 +1,24 @@
+
 body {
     font-size: calc(1 * (16px - 0.002 * (1920px - 100vw)));
     font-family:'Montserrat', 'Kiwi Maru', sans-serif;
 }
 
-section {
-    align-items: center;
+.block {
     justify-content: center;
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+    margin: 7%;
+    border-radius: 2em;
+    box-shadow:6px 6px 0px rgb(173, 34, 132);
+}
+
+.headline {
+    text-align: center;
+    padding: 7.5% 7.5% 2.5% 7.5%;
+    color: rgb(92, 18, 86);
 }
 
 h1, h2 {
