@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import SignInUpForm from "../components/SignInUpForm";
 import EmailVerification from "../components/EmailVerification";
 import ResetPassword from "../components/ResetPassword";
-import "../style/SignInUp.css"
+import "../style/Start.css"
 import heroareaimg from "../../public/heroarea.jpg"
 
 const pages: {[key: string]: ReactNode} = {

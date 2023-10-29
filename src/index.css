@@ -1,6 +1,6 @@
 
 body {
-    font-size: calc(1 * (16px - 0.002 * (1920px - 100vw)));
+    font-size: 13px;
     font-family:'Montserrat', 'Kiwi Maru', sans-serif;
 }
 
@@ -13,6 +13,12 @@ body {
     margin: 7%;
     border-radius: 2em;
     box-shadow:6px 6px 0px rgb(173, 34, 132);
+}
+
+.block-content { 
+    display: flex;
+    flex-flow: column;
+    padding: 2.5% 10% 2.5% 10%;
 }
 
 .headline {

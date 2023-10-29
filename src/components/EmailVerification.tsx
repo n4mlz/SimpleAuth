@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { SendVerifyEmail } from "../firebase";
 import { useAuthContext } from "../contexts/AuthContext";
 
 const EmailVerification: React.FC = () => {
 
     const user = useAuthContext();
+    const navigate = useNavigate();
     const [isSentEmail, setIsSentEmail] = useState<boolean | undefined>(undefined);
 
     useEffect(() => {
@@ -17,11 +19,13 @@ const EmailVerification: React.FC = () => {
     return (
         <div className="block">
             <h1 className="headline">メールアドレスの確認</h1>
-            <p>{isSentEmail != undefined ? isSentEmail
+            <p className="description">{isSentEmail != undefined ? isSentEmail
                 ? `5分以内にあなたのメールアドレス(${user?.email})宛てに確認メールを送信済みです。メールを再送する場合は、しばらく待ってからこのページに再アクセスしてください。`
                 : `あなたのメールアドレス(${user?.email})宛てに確認メールを送信しました。メール内のリンクをクリックして、アドレスが正しいことを確認してください。`
                 : null}</p>
-            <a href="/verify">次へ</a>
+            <div className="block-content">
+                <button className="separate" onClick={() => navigate("/verify")}>次へ</button>
+            </div>
         </div>
     );
 }

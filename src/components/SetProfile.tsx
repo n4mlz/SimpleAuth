@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { DocumentReference, doc, getDoc } from "firebase/firestore";
 import { db, sendProfile } from "../firebase";
 import { useAuthContext } from "../contexts/AuthContext";
+import "../style/SetProfile.css"
 import defaultIcon from "../assets/default-icon.png";
 
 const genderList: { [key: string]: string }[] = [
@@ -57,25 +58,34 @@ const SetProfile: React.FC = () => {
     setInit();
 
     return (
-        <div>
-            <h1>プロフィールを編集</h1>
-            <form onSubmit={sendInfo}>
+        <div className="block">
+            <h1 className="headline">プロフィールを編集</h1>
+            <form className="block-content" onSubmit={sendInfo}>
+                <label className="editting-icon">
+                    <img className="icon" src={iconURL} />
+                    <input type="file" accept="image/*" className="file-input" onChange={onFileInputChange} />
+                </label>
+                {isError && iconURL == defaultIcon && <p className="separate error">アイコンを設定してください。</p>}
+                <p className="item-title">ユーザー名</p>
                 <input placeholder="ユーザー名" defaultValue={initData.displayName} onChange={(event) => setUsername(event.target.value)} />
-                {isError && username == undefined && <p>ユーザー名を入力してください。</p>}
-                <img src={iconURL} />
-                <input type="file" accept="image/*" onChange={onFileInputChange} />
-                {isError && iconURL == undefined && <p>アイコンを設定してください。</p>}
-                <input type="date" placeholder="生年月日" defaultValue={initData.birth} onChange={(event) => setBirth(event.target.value)} />
-                {isError && birth == undefined && <p>生年月日を入力してください。</p>}
-                {genderList.map((element) => (
-                    <label key={element.value}>
-                        <input type="radio" name="gender" value={element.value} onChange={(event) => setGender(event.target.value)} />
-                        {element.name}
-                    </label>
-                ))}
-                {isError && gender == undefined && <p>性別を入力してください。</p>}
+                {isError && username == undefined && <p className="separate error">ユーザー名を入力してください。</p>}
+                <p className="item-title">生年月日</p>
+                <input type="date" defaultValue={initData.birth} onChange={(event) => setBirth(event.target.value)} />
+                {isError && birth == undefined && <p className="separate error">生年月日を入力してください。</p>}
+                <p className="item-title">性別</p>
+                <div className="radio">
+                    {genderList.map((element) => (
+                        <>
+                            <input type="radio" name="gender" id={element.value} value={element.value} onChange={(event) => setGender(event.target.value)} />
+                            <label key={element.value} htmlFor={element.value}>
+                                {element.name}
+                            </label>
+                        </>
+                    ))}
+                </div>
+                {isError && gender == undefined && <p className="separate error">性別を入力してください。</p>}
                 {initData.displayName && <Link to="/">次へ</Link>}
-                <button type="submit">保存</button>
+                <button type="submit" className="item-submit">保存</button>
             </form>
         </div>
     )
