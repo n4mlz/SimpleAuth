@@ -10,7 +10,7 @@ const Home: React.FC = () => {
             <h1 className="headline">ホーム</h1>
             <div className="block-content">
                 <img className="icon big-icon" src={user?.photoURL ? user.photoURL : defaultIcon}></img>
-                <h3>{user?.displayName}</h3>
+                <h1 className="separate">{user?.displayName}</h1>
                 <Link className="separate" to="/setprofile">プロフィールを変更</Link>
             </div>
         </div>

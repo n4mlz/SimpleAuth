@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { DocumentReference, doc, getDoc } from "firebase/firestore";
 import { db, sendProfile } from "../firebase";
 import { useAuthContext } from "../contexts/AuthContext";
@@ -15,22 +15,23 @@ const genderList: { [key: string]: string }[] = [
 const SetProfile: React.FC = () => {
 
     const user = useAuthContext();
+    const navigate = useNavigate();
 
-    const [username, setUsername] = useState<string | undefined>(undefined);
-    const [iconFile, setIconFile] = useState<File | undefined>(undefined);
-    const [iconURL, setIconURL] = useState<string>(defaultIcon);
+    const [displayName, setdisplayName] = useState<string | undefined>(undefined);
+    const [photoFile, setphotoFile] = useState<File | undefined>(undefined);
+    const [photoURL, setphotoURL] = useState<string>(defaultIcon);
     const [birth, setBirth] = useState<string | undefined>(undefined);
     const [gender, setGender] = useState<string | undefined>(undefined);
     const [isError, setIsError] = useState<boolean>(false);
-    const [initData, setInitData] = useState<{ [key: string]: string }>({});
+    const [initialized, setInitialized] = useState<boolean>(false);
 
 
     // プロフィール画像が選択された時, stateを更新
     const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return;
         const fileObject = e.target.files[0];
-        setIconFile(fileObject);
-        setIconURL(window.URL.createObjectURL(fileObject));
+        setphotoFile(fileObject);
+        setphotoURL(window.URL.createObjectURL(fileObject));
     };
 
 
@@ -38,7 +39,7 @@ const SetProfile: React.FC = () => {
     const sendInfo = async (event: FormEvent) => {
         event.preventDefault();
         // エラーが発生した場合はtrueが返る
-        if (user) setIsError(await sendProfile(user, username, iconFile, iconURL, birth, gender));
+        if (user) setIsError(await sendProfile(user, displayName, photoFile, photoURL, birth, gender));
     }
 
 
@@ -46,13 +47,12 @@ const SetProfile: React.FC = () => {
     const setInit = async () => {
         const profileRef: DocumentReference = doc(db, "profile", String(user?.uid));
         const data = (await getDoc(profileRef)).data();
-        setInitData({
-            displayName: data?.displayName,
-            photoURL: data?.photoURL,
-            birth: data?.birth,
-            gender: data?.gender
-        });
-        if (data?.photoURL) setIconURL(data.photoURL);
+        setInitialized(true);
+        setdisplayName(data?.displayName);
+        setphotoURL(data?.photoURL);
+        setBirth(data?.birth);
+        setGender(data?.gender);
+        if (data?.photoURL) setphotoURL(data.photoURL);
     }
 
     useEffect(() => {(async () => setInit())()}, []);
@@ -62,30 +62,30 @@ const SetProfile: React.FC = () => {
             <h1 className="headline">プロフィールを編集</h1>
             <form className="block-content" onSubmit={sendInfo}>
                 <label className="big-icon">
-                    <img className="icon" src={iconURL} />
+                    <img className="icon" src={photoURL} />
                     <input type="file" accept="image/*" className="file-input" onChange={onFileInputChange} />
                 </label>
-                {isError && iconURL == defaultIcon && <p className="separate error">アイコンを設定してください。</p>}
+                {isError && photoURL == defaultIcon && <p className="separate error">アイコンを設定してください。</p>}
                 <p className="item-title">ユーザー名</p>
-                <input placeholder="ユーザー名" defaultValue={initData.displayName} onChange={(event) => setUsername(event.target.value)} />
-                {isError && username == undefined && <p className="separate error">ユーザー名を入力してください。</p>}
+                <input placeholder="ユーザー名" defaultValue={displayName} onChange={(event) => setdisplayName(event.target.value)} />
+                {isError && displayName == undefined && <p className="separate error">ユーザー名を入力してください。</p>}
                 <p className="item-title">生年月日</p>
-                <input type="date" defaultValue={initData.birth} onChange={(event) => setBirth(event.target.value)} />
+                <input type="date" defaultValue={birth} onChange={(event) => setBirth(event.target.value)} />
                 {isError && birth == undefined && <p className="separate error">生年月日を入力してください。</p>}
                 <p className="item-title">性別</p>
                 <div className="radio">
                     {genderList.map((element) => (
-                        <>
-                            <input key={element.value+'0'} type="radio" name="gender" id={element.value} value={element.value} onChange={(event) => setGender(event.target.value)} />
-                            <label key={element.value+'1'} htmlFor={element.value}>
+                        <div key={element.value}>
+                            <input type="radio" name="gender" id={element.value} value={element.value} onChange={(event) => setGender(event.target.value)} />
+                            <label htmlFor={element.value}>
                                 {element.name}
                             </label>
-                        </>
+                        </div>
                     ))}
                 </div>
                 {isError && gender == undefined && <p className="separate error">性別を入力してください。</p>}
-                {initData.displayName && <Link to="/">次へ</Link>}
                 <button type="submit" className="item-submit">保存</button>
+                {initialized && <button className="item-submit white-button" onClick={() => navigate("/")}>戻る</button>}
             </form>
         </div>
     )
