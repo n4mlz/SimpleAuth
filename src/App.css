@@ -28,6 +28,12 @@ button {
     object-fit: cover;
 }
 
+.big-icon {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 15px auto;
+}
+
 .error {
     color: red;
     text-align: left;

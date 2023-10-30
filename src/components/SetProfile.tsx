@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { DocumentReference, doc, getDoc } from "firebase/firestore";
 import { db, sendProfile } from "../firebase";
@@ -55,13 +55,13 @@ const SetProfile: React.FC = () => {
         if (data?.photoURL) setIconURL(data.photoURL);
     }
 
-    setInit();
+    useEffect(() => {(async () => setInit())()}, []);
 
     return (
         <div className="block">
             <h1 className="headline">プロフィールを編集</h1>
             <form className="block-content" onSubmit={sendInfo}>
-                <label className="editting-icon">
+                <label className="big-icon">
                     <img className="icon" src={iconURL} />
                     <input type="file" accept="image/*" className="file-input" onChange={onFileInputChange} />
                 </label>
@@ -76,8 +76,8 @@ const SetProfile: React.FC = () => {
                 <div className="radio">
                     {genderList.map((element) => (
                         <>
-                            <input type="radio" name="gender" id={element.value} value={element.value} onChange={(event) => setGender(event.target.value)} />
-                            <label key={element.value} htmlFor={element.value}>
+                            <input key={element.value+'0'} type="radio" name="gender" id={element.value} value={element.value} onChange={(event) => setGender(event.target.value)} />
+                            <label key={element.value+'1'} htmlFor={element.value}>
                                 {element.name}
                             </label>
                         </>

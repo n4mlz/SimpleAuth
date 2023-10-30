@@ -1,9 +1,26 @@
-.header {
+header {
     background-color: rgb(255, 255, 255);
     box-sizing:border-box;
     padding: 2%;
+    display: flex;
+}
+
+header h1{
+    margin: auto 10px auto 10px;
+    color: #42093c;
+}
+
+header button {
+    width: 100px;
+    height: 50px;
 }
 
 .logo {
     width: 12%;
+}
+
+nav {
+    margin: 0 0 0 auto;
+    display: flex;
+    align-items: center;
 }
