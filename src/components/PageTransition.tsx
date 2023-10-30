@@ -17,8 +17,8 @@ const requiredPermission: { [key: string]: number[] } = {
 };
 
 const getPermissionLevel = async (user: User | null | undefined) => {
-    if (user == undefined) return undefined;
-    if (user == null) return 0;
+    if (user === undefined) return undefined;
+    if (user === null) return 0;
     if (!user.emailVerified) return 1;
     if (! await isProfileSet(user)) return 2;
     return 3;
@@ -31,7 +31,6 @@ const PageTransition: React.FC = () => {
     useEffect(() => {
         (async () => {
             const permissionLevel = await getPermissionLevel(user);
-            console.log(permissionLevel)
             if (permissionLevel == undefined) return undefined;
 
             const currentPath = location.pathname;
