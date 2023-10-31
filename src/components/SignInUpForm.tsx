@@ -35,8 +35,8 @@ const SignInUpForm: React.FC<{ isSignIn: boolean }> = (props) => {
     const signInUp = async (event: FormEvent) => {
         event.preventDefault();
         if (!props.isSignIn && !isChecked) {
-        setIsError("not-checked-yet");
-        return;
+            setIsError("not-checked-yet");
+            return;
         }
         setIsError(props.isSignIn ? await SignIn(email, password) : await SignUp(email, password));
     };

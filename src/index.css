@@ -1,7 +1,6 @@
-
 body {
     font-size: 13px;
-    font-family:'Montserrat', 'Kiwi Maru', sans-serif;
+    font-family: 'Montserrat', 'Kiwi Maru', sans-serif;
 }
 
 .main-contents {
@@ -21,10 +20,10 @@ body {
     padding-bottom: 3%;
     margin: 7%;
     border-radius: 2em;
-    box-shadow:6px 6px 0px rgb(173, 34, 132);
+    box-shadow: 6px 6px 0px rgb(173, 34, 132);
 }
 
-.block-content { 
+.block-content {
     display: flex;
     flex-flow: column;
     padding: 2.5% 10% 2.5% 10%;
@@ -36,6 +35,7 @@ body {
     color: rgb(92, 18, 86);
 }
 
-h1, h2 {
+h1,
+h2 {
     font-weight: 500;
 }

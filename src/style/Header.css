@@ -3,12 +3,12 @@ header {
     top: 0;
     z-index: 1;
     background-color: rgb(255, 245, 255);
-    box-sizing:border-box;
+    box-sizing: border-box;
     padding: min(2%, 10px);
     display: flex;
 }
 
-header h1{
+header h1 {
     margin: auto 10px auto 10px;
     color: #42093c;
 }

@@ -12,7 +12,7 @@ const Header = () => {
             <img className="logo" src={logo} />
             <h1>Simple Auth</h1>
             <nav>
-                {user?<button onClick={SignOut}>Sign Out</button>:null}
+                {user ? <button onClick={SignOut}>Sign Out</button> : null}
             </nav>
         </header>
     )
