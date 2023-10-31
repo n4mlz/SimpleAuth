@@ -10,6 +10,7 @@ body {
     flex-flow: column;
     text-align: center;
     background-color: rgb(255, 255, 255);
+    padding-bottom: 3%;
     margin: 7%;
     border-radius: 2em;
     box-shadow:6px 6px 0px rgb(173, 34, 132);

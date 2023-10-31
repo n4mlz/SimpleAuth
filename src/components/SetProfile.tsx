@@ -49,13 +49,12 @@ const SetProfile: React.FC = () => {
         const data = (await getDoc(profileRef)).data();
         setInitialized(true);
         setdisplayName(data?.displayName);
-        setphotoURL(data?.photoURL);
         setBirth(data?.birth);
         setGender(data?.gender);
         if (data?.photoURL) setphotoURL(data.photoURL);
     }
 
-    useEffect(() => {(async () => setInit())()}, []);
+    useEffect(() => {(async () => setInit())()}, [user]);
 
     return (
         <div className="block">

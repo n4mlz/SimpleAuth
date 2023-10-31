@@ -1,10 +1,7 @@
-html {
-    background-color: rgb(26, 0, 36);
-    background-color: rgb(69, 38, 99);
-}
 
 .heroarea {
     position: relative;
+    border-bottom: 10px solid #fdf0ff;
 }
 
 .heroarea h1 {
@@ -14,7 +11,7 @@ html {
     transform: translate(-50%, -50%);
     font-size: 45px;
     text-align: center;
-    white-space:nowrap;
+    white-space: nowrap;
     font-weight: 700;
     color: white;
     text-shadow: 0 8px 9px #400d3b;

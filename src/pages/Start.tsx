@@ -5,7 +5,7 @@ import ResetPassword from "../components/ResetPassword";
 import "../style/Start.css"
 import heroareaimg from "../../public/heroarea.jpg"
 
-const pages: {[key: string]: ReactNode} = {
+const pages: { [key: string]: ReactNode } = {
     signup: <SignInUpForm isSignIn={false} />,
     signin: <SignInUpForm isSignIn={true} />,
     verify: <EmailVerification />,
