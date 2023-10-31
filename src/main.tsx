@@ -5,7 +5,7 @@ import "./index.css"
 import "modern-css-reset"
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <BrowserRouter basename={process.env.PUBLIC_URL}>
+  <BrowserRouter>
     <App />
   </BrowserRouter>,
 )

@@ -2,7 +2,6 @@
   "name": "simpleauth",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://nameless-itf23.github.io/SimpleAuth",
   "type": "module",
   "scripts": {
     "dev": "vite",
