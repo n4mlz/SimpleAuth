@@ -122,7 +122,7 @@ async function sendProfile(
       // プロフィール情報を更新する
       updateProfile(user, { displayName: username, photoURL: photoURL });
       const profileRef: DocumentReference = doc(db, "profile", String(user?.uid));
-      setDoc(profileRef, {
+      await setDoc(profileRef, {
         userId: user.uid,
         displayName: username,
         photoURL: photoURL,
