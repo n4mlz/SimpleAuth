@@ -45,6 +45,10 @@ firebaseに関するAPI操作は、全て `src/firebase.tsx` 内に集約され�
 const user = useAuthContext();
 ```
 
+## ページ内の画像ついて
+
+ページで使用している画像は、全て Bing Image Creator (DALLE-3) によって生成されました。
+
 ## デプロイ先
 
 以下のページから閲覧できます。  
