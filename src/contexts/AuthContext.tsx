@@ -5,7 +5,7 @@ import { doc, getDoc } from "firebase/firestore";
 
 type UserType = User | null | undefined;
 
-const AuthContext = createContext<UserType>(undefined);
+const AuthContext = createContext<UserType>(auth.currentUser);
 
 function useAuthContext() {
     return useContext(AuthContext);

@@ -1,5 +1,6 @@
-import { User } from "firebase/auth";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { User } from "firebase/auth";
 import { isProfileSet, useAuthContext } from "../contexts/AuthContext";
 
 // ページを閲覧する権限がない場合の権限レベル別の遷移先
@@ -16,25 +17,26 @@ const requiredPermission: { [key: string]: number[] } = {
 };
 
 const getPermissionLevel = async (user: User | null | undefined) => {
-    if (user == undefined) return undefined;
-    if (user == null) return 0;
+    if (user === undefined) return undefined;
+    if (user === null) return 0;
     if (!user.emailVerified) return 1;
     if (! await isProfileSet(user)) return 2;
     return 3;
 };
 
-const PageTransition = () => {
-    (async () => {
-        const user = useAuthContext();
-        const location = useLocation();
-        const navigate = useNavigate();
+const PageTransition: React.FC = () => {
+    const user = useAuthContext();
+    const location = useLocation();
+    const navigate = useNavigate();
+    useEffect(() => {
+        (async () => {
+            const permissionLevel = await getPermissionLevel(user);
+            if (permissionLevel == undefined) return undefined;
 
-        const permissionLevel = await getPermissionLevel(user);
-        if (permissionLevel == undefined) return undefined;
-
-        const currentPath = location.pathname;
-        if (!requiredPermission[currentPath].includes(permissionLevel)) navigate(transitionTo[permissionLevel]);
-    })();
+            const currentPath = location.pathname;
+            if (!requiredPermission[currentPath].includes(permissionLevel)) navigate(transitionTo[permissionLevel]);
+        })();
+    }, [user]);
 
     return <></>
 }

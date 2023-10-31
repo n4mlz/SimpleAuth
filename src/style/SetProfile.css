@@ -1,0 +1,62 @@
+.item-title {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.file-input {
+    display: none;
+}
+
+.radio {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0 0 20px;
+}
+
+.radio label {
+    display: block;
+    text-align: center;
+    border: 2px solid #793a72;
+    border-radius: 5px;
+    margin: 0 10px;
+    padding: 10px;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+input[type="radio"]:checked+label {
+    background-color: #793a72;
+    color: white;
+}
+
+input[type="date"] {
+    position: relative;
+}
+
+input[type="date"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input[type="date"]::-webkit-clear-button {
+    -webkit-appearance: none;
+}
+
+input[type=date]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+.item-submit {
+    margin: 5px 0 5px;
+}
+
+.white-button {
+    background-color: white;
+    color: black;
+    border: 3px solid #793a72;
+}

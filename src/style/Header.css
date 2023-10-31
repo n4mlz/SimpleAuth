@@ -1,0 +1,30 @@
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: rgb(255, 245, 255);
+    box-sizing: border-box;
+    padding: min(2%, 10px);
+    display: flex;
+}
+
+header h1 {
+    margin: auto 10px auto 10px;
+    color: #42093c;
+}
+
+header button {
+    width: 80px;
+    height: 40px;
+}
+
+.logo {
+    width: 12%;
+    max-width: 50px;
+}
+
+nav {
+    margin: 0 0 0 auto;
+    display: flex;
+    align-items: center;
+}
