@@ -8,7 +8,7 @@ var emailErrorMessages: { [key: string]: string } = {
     "auth/user-not-found": "ユーザーが存在しません。",
     "auth/invalid-login-credentials": "メールアドレスまたはパスワードが間違っています。",
     "auth/email-already-in-use": "このメールアドレスは既に使用されています。"
-}
+};
 
 var passwordErrorMessages: { [key: string]: string } = {
     "auth/missing-password": "パスワードが間違っています。",
@@ -16,16 +16,28 @@ var passwordErrorMessages: { [key: string]: string } = {
     "auth/too-many-requests": "何度もパスワードを間違えたため、一時的に機能が制限されています。",
     "auth/invalid-login-credentials": "メールアドレスまたはパスワードが間違っています。",
     "auth/weak-password": "パスワードは6文字以上で入力してください。"
-}
+};
+
+var checkboxErrorMessages: { [key: string]: string } = {
+    "not-checked-yet": "チェックされていません。"
+};
+
+const tosURL = "https://menherasenpai.notion.site/457df49475494671807673a0a3346451";
+
 
 const SignInUpForm: React.FC<{ isSignIn: boolean }> = (props) => {
 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [isChecked, setIsChecked] = useState<Boolean>(false);
     const [isError, setIsError] = useState<string | undefined>(undefined);
 
     const signInUp = async (event: FormEvent) => {
         event.preventDefault();
+        if (!isChecked) {
+        setIsError("not-checked-yet");
+        return;
+        }
         setIsError(props.isSignIn ? await SignIn(email, password) : await SignUp(email, password));
     };
 
@@ -45,6 +57,13 @@ const SignInUpForm: React.FC<{ isSignIn: boolean }> = (props) => {
                     placeholder="パスワード(6文字以上)"
                 />
                 {isError && isError in passwordErrorMessages && <p className="separate error">{passwordErrorMessages[isError]}</p>}
+                {!props.isSignIn ?
+                    <div className="checkbox">
+                        <input type="checkbox" onChange={(event) => setIsChecked(event.target.checked)} />
+                        <p><a href={tosURL}>利用規約</a>に同意</p>
+                    </div>
+                    : null}
+                {isError && isError in checkboxErrorMessages && <p className="separate error">{checkboxErrorMessages[isError]}</p>}
                 <button type="submit">続ける</button>
             </form>
             <div className="links">

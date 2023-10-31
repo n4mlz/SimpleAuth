@@ -20,3 +20,12 @@
 .links {
     margin-bottom: 10px;
 }
+
+.checkbox {
+    display: flex;
+    padding: 2px;
+}
+
+.checkbox input {
+    margin-right: 10px;
+}
