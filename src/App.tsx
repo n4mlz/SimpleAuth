@@ -2,10 +2,10 @@ import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import Home from "./pages/Home";
 import Start from "./pages/Start";
-import SetProfile from "./components/SetProfile";
+import SetProfile from "./pages/SetProfile";
 import PageTransition from "./components/PageTransition";
 import "./App.css";
-import Header from "./pages/Header";
+import Header from "./components/Header";
 
 function App() {
 

@@ -1,27 +1,47 @@
-# React + TypeScript + Vite
+# Simple Auth
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 概要
 
-Currently, two official plugins are available:
+サイト内でアカウントを登録する機能のあるシンプルなサイトです。  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 使用技術
+- Node.js
+- React
+- Vite
+- TypeScript
+- Firebase
 
-## Expanding the ESLint configuration
+## 想定される動作
+1. メールアドレスとパスワードを入力、利用規約への同意、を経てアカウント作成
+2. メール認証
+3. アイコン画像、ユーザー名、生年月日、性別を入力しプロフィール作成
+4. アカウントの作成と設定が全て完了する
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## ルーティング
 
-- Configure the top-level `parserOptions` property like this:
+ルーティングは、以下のようになっています。なおそれぞれには、閲覧するための権限(後述)が設定されています。
+- `/signup`
+   - サインアップ時に使われます。必要な権限はありません。ここでアカウントが作成されると、自動的にログインされます。 `src/pages/Start.tsx` にて実装しています。
+- `/signin`
+   - サインイン時に使われます。必要な権限はありません。`src/pages/Start.tsx` にて実装しています。
+- `/reset`
+   - パスワードのリセット時に使われます。必要な権限はありません。`src/pages/Start.tsx` にて実装しています。
+- `/verify`
+   - `/signup` にてアカウント作成後にメール認証を行います。閲覧するにはアカウントにログインしている必要があります。`src/pages/Start.tsx` にて実装しています。
+- `/setprofile`
+   - `/verify` にてメール認証後にプロフィールを作成します。プロフィールを既に作成済みの場合でもアクセスできます。ここを閲覧するには、メール認証済みである必要があります。`src/pages/SetProfile.tsx` にて実装しています。
+- `/`
+   - プロフィール作成後にメインで使うページです。閲覧するには、過去に最低一回プロフィールを作成している必要があります。`src/pages/Home.tsx` にて実装しています。
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+## 権限レベルの管理
+
+権限のレベルを管理するために、`src/components/PageTransition.tsx` にて `getPermissionLevel()` を用意しています。ただしこれは直接使用されることはなく、ページを読み込んだタイミングで同ファイル内の `PageTranstion` というコンポーネントにて自動で実行されます。ここで閲覧権限を持っていない場合は、適切な場所にリダイレクトされます。
+
+## API
+
+firebaseに関するAPI操作は、全て `src/firebase.tsx` 内に集約されています。また、ユーザーに関する情報は `src/contexts/AuthContext.tsx` にてReactのContextとして値を持つようにしています。他のファイルでユーザー情報を使用する場合、以下のように使います。
+
+```TypeScript
+const user = useAuthContext();
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
