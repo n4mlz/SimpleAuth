@@ -33,7 +33,7 @@ body::before {
 
 input, button {
     display:block;
-    padding: 4%;
+    padding: min(4%, 20px);
     border-radius: 0.7em;
     border: 1px solid #8b8b8b;
 }
@@ -48,8 +48,12 @@ button {
     background-color: #793a72;
 }
 
+button:active {
+    background-color: #a06b9a;
+}
+
 .separate {
-    margin: 0 10px 10px;
+    margin: 0 2% 2.5%;
 }
 
 .icon {
@@ -66,4 +70,10 @@ button {
 .error {
     color: red;
     text-align: left;
+}
+
+@media screen and (min-width:1200px) {
+    .description {
+        margin: 12px 12px 36px 12px;
+    }    
 }

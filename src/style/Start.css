@@ -1,7 +1,24 @@
 
+.start {
+    display: flex;
+    justify-content: center;
+}
+
+.start-contents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .heroarea {
     position: relative;
     border-bottom: 10px solid #fdf0ff;
+}
+
+.heroarea img {
+    width: 100vw;
+    max-height: calc(100vh - 70px);
+    object-fit: cover;
 }
 
 .heroarea h1 {
@@ -28,4 +45,35 @@
 
 .checkbox input {
     margin-right: 10px;
+}
+
+@media screen and (min-width:1200px) {
+    .start {
+        justify-content: left;
+    }
+
+    .start-contents {
+        flex-direction: row;
+        width: 100vw;
+    }
+
+    .start-contents .block {
+        max-width: none;
+        margin: 2%;
+    }
+
+    .heroarea {
+        border-bottom: 0px;
+    }
+
+    .heroarea img {
+        max-width: calc(100vh - 70px);
+    }
+}
+
+@media screen and (min-width:1600px) {
+    .start-contents .block {
+        max-width: 600px;
+        margin: 2% auto 2% auto;
+    }    
 }

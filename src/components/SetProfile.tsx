@@ -47,45 +47,47 @@ const SetProfile: React.FC = () => {
     const setInit = async () => {
         const profileRef: DocumentReference = doc(db, "profile", String(user?.uid));
         const data = (await getDoc(profileRef)).data();
-        setInitialized(true);
+        if (data) setInitialized(true);
         setdisplayName(data?.displayName);
         setBirth(data?.birth);
         setGender(data?.gender);
         if (data?.photoURL) setphotoURL(data.photoURL);
     }
 
-    useEffect(() => {(async () => setInit())()}, [user]);
+    useEffect(() => { (async () => setInit())() }, [user]);
 
     return (
-        <div className="block">
-            <h1 className="headline">プロフィールを編集</h1>
-            <form className="block-content" onSubmit={sendInfo}>
-                <label className="big-icon">
-                    <img className="icon" src={photoURL} />
-                    <input type="file" accept="image/*" className="file-input" onChange={onFileInputChange} />
-                </label>
-                {isError && photoURL == defaultIcon && <p className="separate error">アイコンを設定してください。</p>}
-                <p className="item-title">ユーザー名</p>
-                <input placeholder="ユーザー名" defaultValue={displayName} onChange={(event) => setdisplayName(event.target.value)} />
-                {isError && displayName == undefined && <p className="separate error">ユーザー名を入力してください。</p>}
-                <p className="item-title">生年月日</p>
-                <input type="date" defaultValue={birth} onChange={(event) => setBirth(event.target.value)} />
-                {isError && birth == undefined && <p className="separate error">生年月日を入力してください。</p>}
-                <p className="item-title">性別</p>
-                <div className="radio">
-                    {genderList.map((element) => (
-                        <div key={element.value}>
-                            <input type="radio" name="gender" id={element.value} value={element.value} onChange={(event) => setGender(event.target.value)} />
-                            <label htmlFor={element.value}>
-                                {element.name}
-                            </label>
-                        </div>
-                    ))}
-                </div>
-                {isError && gender == undefined && <p className="separate error">性別を入力してください。</p>}
-                <button type="submit" className="item-submit">保存</button>
-                {initialized && <button className="item-submit white-button" onClick={() => navigate("/")}>戻る</button>}
-            </form>
+        <div className="main-contents">
+            <div className="block">
+                <h1 className="headline">プロフィールを編集</h1>
+                <form className="block-content" onSubmit={sendInfo}>
+                    <label className="big-icon">
+                        <img className="icon" src={photoURL} />
+                        <input type="file" accept="image/*" className="file-input" onChange={onFileInputChange} />
+                    </label>
+                    {isError && photoURL == defaultIcon && <p className="separate error">アイコンを設定してください。</p>}
+                    <p className="item-title">ユーザー名</p>
+                    <input placeholder="ユーザー名" defaultValue={displayName} onChange={(event) => setdisplayName(event.target.value)} />
+                    {isError && displayName == undefined && <p className="separate error">ユーザー名を入力してください。</p>}
+                    <p className="item-title">生年月日</p>
+                    <input type="date" defaultValue={birth} onChange={(event) => setBirth(event.target.value)} />
+                    {isError && birth == undefined && <p className="separate error">生年月日を入力してください。</p>}
+                    <p className="item-title">性別</p>
+                    <div className="radio">
+                        {genderList.map((element) => (
+                            <div key={element.value}>
+                                <input type="radio" name="gender" id={element.value} value={element.value} onChange={(event) => setGender(event.target.value)} />
+                                <label htmlFor={element.value}>
+                                    {element.name}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                    {isError && gender == undefined && <p className="separate error">性別を入力してください。</p>}
+                    <button type="submit" className="item-submit">保存</button>
+                    {initialized && <button className="item-submit white-button" onClick={() => navigate("/")}>戻る</button>}
+                </form>
+            </div>
         </div>
     )
 }

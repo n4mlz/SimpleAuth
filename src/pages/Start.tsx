@@ -14,12 +14,14 @@ const pages: { [key: string]: ReactNode } = {
 
 const Start: React.FC<{ page: string }> = (props) => {
     return (
-        <div>
-            <div className="heroarea">
-                <img src={heroareaimg} />
-                <h1>Happy<br />Helloween!</h1>
+        <div className="start">
+            <div className="start-contents">
+                <div className="heroarea">
+                    <img src={heroareaimg} />
+                    <h1>Happy<br />Helloween!</h1>
+                </div>
+                {pages[props.page]}
             </div>
-            {pages[props.page]}
         </div>
     )
 }
